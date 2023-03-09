@@ -38,56 +38,65 @@ A13 = corrcoef(T13);
 A14 = corrcoef(T14);
 A15 = corrcoef(T15);
 
-tl = tiledlayout(4,4,'TileSpacing','Compact');
+tl = tiledlayout("flow",'TileSpacing','Compact');
 nexttile(tl)
-heatmap(A1);
+h = imagesc(A6);
 clim([-1 1]);
+title('2501 - 3000')
 nexttile(tl);
-heatmap(A2);
+h = imagesc(A7);
 clim([-1 1]);
+title('3001 - 3500')
 nexttile(tl);
-heatmap(A3);
+h = imagesc(A8);
 clim([-1 1]);
+title('3501 - 4000')
 nexttile(tl);
-heatmap(A4);
+h = imagesc(A9);
 clim([-1 1]);
+title('4001 - 4500')
+boh = nexttile(tl);
+h = imagesc(A10);
+clim([-1 1]);
+title('4501 - 5000')
+% nexttile(tl);
+% heatmap(A6);
+% clim([-1 1]);
+% nexttile(tl);
+% heatmap(A7);
+% clim([-1 1]);
+% nexttile(tl);
+% heatmap(A8);
+% clim([-1 1]);
+% nexttile(tl);
+% heatmap(A9);
+% clim([-1 1]);
+% nexttile(tl);
+% heatmap(A10);
+% clim([-1 1]);
+% nexttile(tl);
+% heatmap(A11);
+% clim([-1 1]);
+% nexttile(tl);
+% heatmap(A12);
+% clim([-1 1]);
+% nexttile(tl);
+% heatmap(A13);
+% clim([-1 1]);
+% nexttile(tl);
+% heatmap(A14);
+% clim([-1 1]);
+% nexttile(tl);
+% heatmap(A15);
+% clim([-1 1]);
 nexttile(tl);
-heatmap(A5);
+h = imagesc(A);
 clim([-1 1]);
-nexttile(tl);
-heatmap(A6);
-clim([-1 1]);
-nexttile(tl);
-heatmap(A7);
-clim([-1 1]);
-nexttile(tl);
-heatmap(A8);
-clim([-1 1]);
-nexttile(tl);
-heatmap(A9);
-clim([-1 1]);
-nexttile(tl);
-heatmap(A10);
-clim([-1 1]);
-nexttile(tl);
-heatmap(A11);
-clim([-1 1]);
-nexttile(tl);
-heatmap(A12);
-clim([-1 1]);
-nexttile(tl);
-heatmap(A13);
-clim([-1 1]);
-nexttile(tl);
-heatmap(A14);
-clim([-1 1]);
-nexttile(tl);
-heatmap(A15);
-clim([-1 1]);
-nexttile(tl);
-heatmap(A);
-colormap parula;
-clim([-1 1]);
+title('Final adj matrx')
 
+J = customcolormap([0 0.5 1], {'#0025B3','#ffffff','#FF0008'});
+colormap(J);
+cb = colorbar;
+cb.Layout.Tile = 'east';
 
 

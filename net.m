@@ -38,27 +38,27 @@ A13 = corrcoef(T13);
 A14 = corrcoef(T14);
 A15 = corrcoef(T15);
 
-tl = tiledlayout("flow",'TileSpacing','Compact');
-nexttile(tl)
-h = imagesc(A6);
-clim([-1 1]);
-title('2501 - 3000')
-nexttile(tl);
-h = imagesc(A7);
-clim([-1 1]);
-title('3001 - 3500')
-nexttile(tl);
-h = imagesc(A8);
-clim([-1 1]);
-title('3501 - 4000')
-nexttile(tl);
-h = imagesc(A9);
-clim([-1 1]);
-title('4001 - 4500')
-boh = nexttile(tl);
-h = imagesc(A10);
-clim([-1 1]);
-title('4501 - 5000')
+% tl = tiledlayout("flow",'TileSpacing','Compact');
+% nexttile(tl)
+% h = imagesc(A6);
+% clim([-1 1]);
+% title('2501 - 3000')
+% nexttile(tl);
+% h = imagesc(A7);
+% clim([-1 1]);
+% title('3001 - 3500')
+% nexttile(tl);
+% h = imagesc(A8);
+% clim([-1 1]);
+% title('3501 - 4000')
+% nexttile(tl);
+% h = imagesc(A9);
+% clim([-1 1]);
+% title('4001 - 4500')
+% boh = nexttile(tl);
+% h = imagesc(A10);
+% clim([-1 1]);
+% title('4501 - 5000')
 % nexttile(tl);
 % heatmap(A6);
 % clim([-1 1]);
@@ -89,14 +89,32 @@ title('4501 - 5000')
 % nexttile(tl);
 % heatmap(A15);
 % clim([-1 1]);
-nexttile(tl);
-h = imagesc(A);
-clim([-1 1]);
-title('Final adj matrx')
+% nexttile(tl);
+% h = imagesc(A);
+% clim([-1 1]);
+% title('Final adj matrx')
+% 
+% J = customcolormap([0 0.5 1], {'#0025B3','#ffffff','#FF0008'});
+% colormap(J);
+% cb = colorbar;
+% cb.Layout.Tile = 'east';
+matrices = {A, A1, A2, A3, A4, A5 ,A6, A7, A8, A9, A10, A11, A12, A13, A14, A15};
+a = matrices;
 
-J = customcolormap([0 0.5 1], {'#0025B3','#ffffff','#FF0008'});
-colormap(J);
-cb = colorbar;
-cb.Layout.Tile = 'east';
+for k = 1:16
+subplot(4,4, k)
+histogram(a{1,k},64, 'Normalization', 'probability');
+ylim([0, 0.1]);
+xlim([-1, 1]);
+xlabel('Coefficient');
+ylabel('Probability');
+if k == 1
+    title('Adiacency matrix');
+end
+if k ~= 1
+    str = sprintf('A %d', k-1);
+    title(str);
+end
+end
 
 

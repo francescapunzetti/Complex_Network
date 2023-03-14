@@ -117,17 +117,24 @@ a = matrices;
 % end
 % % end
 
+
 % Draw network
+counts = 1;
+set =  0:0.05:1;
+for j =  0:0.05:1
 for k = 1:16
-subplot(4,4, k)
-Th = 0.2;
+%subplot(4,4, k)
+Th = j;
 A_th = a{1,k};
 comparator = a{1,k}==1; 
 A_th(comparator) = 0;
 comparator = a{1,k}<Th;
 A_th(comparator) = 0;
 G = graph(A_th);
-plot(G);
+% plot(G);
+N = numedges(G);
+N_edges(k, counts)= N;
+
 if k == 1
     title('Adiacency matrix');
 end
@@ -135,6 +142,11 @@ if k ~= 1
     str = sprintf('A %d', k-1);
     title(str);
 end
-
 end
-N = numedges(G);
+counts = counts +1; 
+end
+
+boxplot(N_edges, "Labels",set)
+xlabel('Correlation coefficient threshold')
+% bar(set, N_edges, 'DisplayName','N_edges')
+

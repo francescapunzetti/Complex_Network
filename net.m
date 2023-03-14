@@ -100,14 +100,34 @@ A15 = corrcoef(T15);
 % cb.Layout.Tile = 'east';
 matrices = {A, A1, A2, A3, A4, A5 ,A6, A7, A8, A9, A10, A11, A12, A13, A14, A15};
 a = matrices;
+% 
+% for k = 1:16
+% subplot(4,4, k)
+% histogram(a{1,k},64, 'Normalization', 'probability');
+% ylim([0, 0.1]);
+% xlim([-1, 1]);
+% xlabel('Coefficient');
+% ylabel('Probability');
+% if k == 1
+%     title('Adiacency matrix');
+% end
+% if k ~= 1
+%     str = sprintf('A %d', k-1);
+%     title(str);
+% end
+% % end
 
+% Draw network
 for k = 1:16
 subplot(4,4, k)
-histogram(a{1,k},64, 'Normalization', 'probability');
-ylim([0, 0.1]);
-xlim([-1, 1]);
-xlabel('Coefficient');
-ylabel('Probability');
+Th = 0.2;
+A_th = a{1,k};
+comparator = a{1,k}==1; 
+A_th(comparator) = 0;
+comparator = a{1,k}<Th;
+A_th(comparator) = 0;
+G = graph(A_th);
+plot(G);
 if k == 1
     title('Adiacency matrix');
 end
@@ -115,6 +135,6 @@ if k ~= 1
     str = sprintf('A %d', k-1);
     title(str);
 end
+
 end
-
-
+N = numedges(G);

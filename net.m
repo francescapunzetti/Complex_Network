@@ -1,8 +1,8 @@
 clear;
 clc;
 clearvars;
-
-T = readmatrix('dataPat_4.csv');
+load('pat_5.mat')
+T = readmatrix('dataPat_5.csv');
 % separate the matrix in subset of 500 points (1s)
 T1 = T(1:500, :);
 T2 = T(501:1000, :);
@@ -21,11 +21,11 @@ T14 = T(6501:7000, :);
 T15 = T(7001:7200, :);
 
 % calculate the adj matrix for each 
-A = corrcoef(T);
-A1 = corrcoef(T1);
-A2 = corrcoef(T2);
-A3 = corrcoef(T3);
-A4 = corrcoef(T4);
+[A, pval] = corrcoef(T);
+[A1, p1] = corrcoef(T1);
+[A2, p2] = corrcoef(T2);
+[A3,p3] = corrcoef(T3);
+[A4,p4] = corrcoef(T4);
 A5 = corrcoef(T5);
 A6 = corrcoef(T6);
 A7 = corrcoef(T7);
@@ -88,25 +88,27 @@ if k ~= 1
     title(str);
 end
 end
-
 % 
-% Draw network
-counts = 1;
+% % 
+% % Draw network
 set =  0:0.05:1;
+figure;
+counts = 1;
 for j =  0:0.05:1
 for k = 1:16
 subplot(4,4, k)
 Th = j;
 A_th = a{1,k};
-comparator = a{1,k}==1; 
+comparator = A_th ==1; 
 A_th(comparator) = 0;
-comparator = a{1,k}<Th;
+comparator = A_th < Th;
 A_th(comparator) = 0;
+comparator = A_th >= Th;
+A_th(comparator) = 1;
 G = graph(A_th);
-% plot(G);
 N = numedges(G);
-N_edges(k, counts)= N;
-
+N_edges(counts,k) = N;
+plot(G)
 if k == 1
     title('Adiacency matrix');
 end
@@ -118,9 +120,9 @@ end
 counts = counts +1; 
 end
 
-figure;
-boxplot(N_edges, "Labels",set)
-xlabel('Correlation coefficient threshold')
+% figure;
+% boxplot(N_edges, "Labels",a)
+% xlabel('Correlation coefficient threshold')
 
 figure;
 bar(set, N_edges, 'DisplayName','N_edges')
@@ -130,14 +132,84 @@ yline(280)
 A_th = a{1,1};
 comparator = a{1,1}==1; 
 A_th(comparator) = 0;
-comparator = a{1,1}<0.2;
+comparator = a{1,1}<0.25;
 A_th(comparator) = 0;
 G = graph(A_th);
 
 
+
+% network using Bonferroni correction: 
+%alpha = 0.05 / ((64*63)/2);
+
+% network using Dunn-Sidak correction: 
+alpha = 1-(1-0.05)^(1/(55*56/2));
+comparator = p1<alpha;
+p1(comparator) = nan;
+
 figure;
-p = plot(G,'Layout','force','EdgeAlpha',0.5,'NodeColor','r');
-deg_ranks = centrality(G,'degree','Importance',G.Edges.Weight);
-edges = linspace(min(deg_ranks),max(deg_ranks),7);
-bins = discretize(deg_ranks,edges);
-p.MarkerSize = bins;
+A_th = a{1,1};
+pval = isnan(p1);
+comparator = pval ==1; 
+A_th(comparator) = 0;
+comparator = A_th<0;
+A_th(comparator) = 0;
+G = graph(A_th, 'omitselfloops');
+h = plot(G, MarkerSize=10, EdgeAlpha=0.5);
+
+% nodes degree
+deg_ranks = centrality(G,'degree');
+% edges = linspace(min(deg_ranks),max(deg_ranks),7);
+% bins = discretize(deg_ranks,edges);
+% h.MarkerSize = bins*3;
+
+% closeness
+ucc = centrality(G,'closeness')*55;
+% h.NodeCData = ucc; % weighted on network extension
+% colormap jet
+% colorbar
+
+% betweeness centrality 
+wbc = centrality(G,'betweenness','Cost',G.Edges.Weight);
+n = numnodes(G);
+h.NodeCData = wbc;
+colormap parula
+colorbar
+
+% type of node
+type = class{1,1};
+type = string(type);
+comparator = class{1,1} == 1;
+type(comparator) = 'diamond';
+comparator = class{1,1} == 2;
+type(comparator) = 'square';
+comparator = class{1,1} == 3;
+type(comparator) = '*';
+
+h.Marker = type;
+color = ["#0072BD","#D95319","#EDB120","#7E2F8E","#77AC30","#4DBEEE","#A2142F", "#FF9999"];
+% Pat 04
+% highlight(h,1:8,'NodeColor',color{1})
+% highlight(h,9:16,'NodeColor',color{2})
+% highlight(h,17:26,'NodeColor',color{3})
+% highlight(h,27:36,'NodeColor',color{4})
+% highlight(h,37:46,'NodeColor',color{5})
+% highlight(h,47:55,'NodeColor',color{6})
+% highlight(h,55:59,'NodeColor',color{7})
+% highlight(h,60:64,'NodeColor',color{8})
+
+%pat 05 
+% highlight(h,1:10,'NodeColor',color{6})
+% highlight(h,11:22,'NodeColor',color{2})
+% highlight(h,23:34,'NodeColor',color{3})
+% highlight(h,35:46,'NodeColor',color{4})
+% highlight(h,47:56,'NodeColor',color{5})
+
+hold on
+
+p = zeros(3, 1);
+p(1) = plot(NaN,NaN,'diamond');
+p(2) = plot(NaN,NaN,'square');
+p(3) = plot(NaN,NaN,'*');
+legend(p,'Non epilettogenic', 'Involved', 'Epilettogenic')
+title('Network betweenness', 'FontSize', 18)
+

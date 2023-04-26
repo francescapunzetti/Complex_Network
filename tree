@@ -1,0 +1,23 @@
+import pandas as pd
+from sklearn import tree
+import matplotlib.pyplot as plt
+
+# Load the CSV file into a Pandas DataFrame
+df = pd.read_excel('Pat05 2.0/centrality values pat5.xlsx', sheet_name='Train')
+
+# Split the data into features (X) and target (y)
+row_deleted = ['Nodes', 'Type', 'ext']
+X = df.drop(row_deleted, axis=1)
+y = df['Type']
+# Train a decision tree classifier
+clf = tree.DecisionTreeClassifier(random_state=0)
+clf.fit(X, y)
+fig, ax = plt.subplots(figsize=(10, 40))
+tree.plot_tree(clf, 
+          feature_names=['Degree', 'Closeness', 'Betweenness', 'Ext n%', 'Ext n', 'Strength', 'Eigenvector', 'Page Rank'], 
+          #class_names= ['1','2','3'],
+          label = None,
+          ax = ax,
+          impurity = False, fontsize=2)
+# Plot the decision tree
+plt.show()

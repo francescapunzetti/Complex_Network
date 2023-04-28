@@ -1,8 +1,8 @@
 clear;
 clc;
 clearvars;
-load('pat_5.mat')
-T = readmatrix('dataPat_5.csv');
+load('pat_4.mat')
+T = readmatrix('dataPat_4.csv');
 % separate the matrix in subset of 500 points (1s)
 T1 = T(1:500, :);
 T2 = T(501:1000, :);
@@ -148,7 +148,7 @@ p1(comparator) = nan;
 
 figure;
 % cambiare qua
-A_th = a{1,1};
+A_th = a{1,16};
 pval = isnan(p1);
 comparator = pval ==1; 
 A_th(comparator) = 0;
@@ -164,13 +164,13 @@ deg_ranks = centrality(G,'degree');
 % h.MarkerSize = bins*3;
 
 % closeness
-closeness = centrality(G,'closeness')*(56-1);
+closeness = centrality(G,'closeness')*(64-1);
 % h.NodeCData = closeness; % weighted on network extension
 % colormap jet
 % colorbar
 
 % betweeness centrality 
-betweennes = centrality(G,'betweenness','Cost',G.Edges.Weight)* (56-1)*(56-2);
+betweennes = centrality(G,'betweenness','Cost',G.Edges.Weight)* (64-1)*(64-2);
 n = numnodes(G);
 h.NodeCData = betweennes;
 colormap parula
@@ -217,54 +217,140 @@ p(3) = plot(NaN,NaN,'*');
 legend(p,'Non epilettogenic', 'Involved', 'Epilettogenic')
 title('Network betweenness', 'FontSize', 18)
 
+% Pat05
+% for i = 1:56 
+% vicini = neighbors(G,i);
+% if (1<=i) && (i<=10)
+%     counts = 0; 
+%     for j = 1:length(vicini)
+%         n = vicini(j);
+%         if (11<=n) && (n<=56)
+%             counts = counts +1;
+%         end
+%     end
+%     neig(i) = counts;
+% end
+% if (11<=i) && (i<=22)
+%     counts = 0; 
+%     for j = 1:length(vicini)
+%         n = vicini(j);
+%         if (1<=n) && (n<=10) || (23<=n) && (n<=56)
+%             counts = counts +1;
+%         end
+%     end
+%     neig(i) = counts;
+% end
+% if (23<=i) && (i<=34)
+%     counts = 0; 
+%     for j = 1:length(vicini)
+%         n = vicini(j);
+%         if (1<=n) && (n<=22) || (35<=n) && (n<=56)
+%             counts = counts +1;
+%         end
+%     end
+%     neig(i) = counts;
+% end
+% if (35<=i) && (i<=46)
+%     counts = 0; 
+%     for j = 1:length(vicini)
+%         n = vicini(j);
+%         if (1<=n) && (n<=34) || (47<=n) && (n<=56)
+%             counts = counts +1;
+%         end
+%     end
+%     neig(i) = counts;
+% end
+% if (47<=i) && (i<=56)
+%     counts = 0; 
+%     for j = 1:length(vicini)
+%         n = vicini(j);
+%         if (1<=n) && (n<=46)
+%             counts = counts +1;
+%         end
+%     end
+%     neig(i) = counts;
+% end
+% end
+% neig = transpose(neig);
 
-for i = 1:56 
+%Pat04
+for i = 1:64 
 vicini = neighbors(G,i);
-if (1<=i) && (i<=10)
+if (1<=i) && (i<=8)
     counts = 0; 
     for j = 1:length(vicini)
         n = vicini(j);
-        if (11<=n) && (n<=56)
+        if (9<=n) && (n<=64)
             counts = counts +1;
         end
     end
     neig(i) = counts;
 end
-if (11<=i) && (i<=22)
+if (9<=i) && (i<=16)
     counts = 0; 
     for j = 1:length(vicini)
         n = vicini(j);
-        if (1<=n) && (n<=10) || (23<=n) && (n<=56)
+        if (1<=n) && (n<=8) || (10<=n) && (n<=64)
             counts = counts +1;
         end
     end
     neig(i) = counts;
 end
-if (23<=i) && (i<=34)
+if (17<=i) && (i<=26)
     counts = 0; 
     for j = 1:length(vicini)
         n = vicini(j);
-        if (1<=n) && (n<=22) || (35<=n) && (n<=56)
+        if (1<=n) && (n<=16) || (27<=n) && (n<=64)
             counts = counts +1;
         end
     end
     neig(i) = counts;
 end
-if (35<=i) && (i<=46)
+if (27<=i) && (i<=36)
     counts = 0; 
     for j = 1:length(vicini)
         n = vicini(j);
-        if (1<=n) && (n<=34) || (47<=n) && (n<=56)
+        if (1<=n) && (n<=26) || (37<=n) && (n<=64)
             counts = counts +1;
         end
     end
     neig(i) = counts;
 end
-if (47<=i) && (i<=56)
+if (37<=i) && (i<=46)
     counts = 0; 
     for j = 1:length(vicini)
         n = vicini(j);
-        if (1<=n) && (n<=46)
+        if (1<=n) && (n<=36) || (47<=n) && (n<=64)
+            counts = counts +1;
+        end
+    end
+    neig(i) = counts;
+end
+if (47<=i) && (i<=54)
+    counts = 0; 
+    for j = 1:length(vicini)
+        n = vicini(j);
+        if (1<=n) && (n<=46) || (55<=n) && (n<=64)
+            counts = counts +1;
+        end
+    end
+    neig(i) = counts;
+end
+if (55<=i) && (i<=59)
+    counts = 0; 
+    for j = 1:length(vicini)
+        n = vicini(j);
+        if (1<=n) && (n<=54) || (60<=n) && (n<=64)
+            counts = counts +1;
+        end
+    end
+    neig(i) = counts;
+end
+if (60<=i) && (i<=64)
+    counts = 0; 
+    for j = 1:length(vicini)
+        n = vicini(j);
+        if (1<=n) && (n<=59)
             counts = counts +1;
         end
     end
@@ -288,12 +374,5 @@ neig = transpose(neig);
 
 % plottare modello 
 % view(trainedModel1.ClassificationTree,"Mode","graph")
-
-counts = 0; 
-for i = 1:length(label_test) 
-    if label_test(i,1) ==3 
-        counts = counts +1; 
-    end 
-end
 
 
